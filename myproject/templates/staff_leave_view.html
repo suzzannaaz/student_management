@@ -1,0 +1,47 @@
+{% extends 'dashboard.html' %}
+
+{% block header %}
+<!-- empty so the header doesn't show on profile page -->
+{% endblock %}
+
+{% block mynav %}
+<div class="p-4 shadow rounded bg-white">
+  <h3 class="mb-3 text-center">View Staff</h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Staff ID</th>
+          <th>Name</th>
+          <th>Leave Date</th>
+          <th>Message</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in staff_leave %}
+   <tr>
+       <th scope="row">{{ i.id }}</th>
+       <td>{{ i.staff_id.admin.first_name }}</td>
+       <td>{{ i.data }}</td>
+       <td>{{ i.message}}</td>
+
+      <td>
+   {% if i.status == 0 %}
+   <a href="{% url 'staff_approve_leave' i.id %}"><button class="btn btn-success">Approve</button></a>
+   <a href="{% url 'staff_disapprove_leave' i.id %}"><button class="btn btn-danger">Disapprove</button></a>
+   {% elif i.status == 1 %}
+    <button class="btn btn-success" disabled="disabled">Approve</button>
+   {% else %}
+   <button class="btn btn-success" disabled="disabled">Dispprove</button>
+   {% endif %}
+</td>
+
+   </tr>
+{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

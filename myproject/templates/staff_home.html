@@ -1,0 +1,159 @@
+{% extends 'dashboard.html' %}
+
+{% block mynav %}
+<div class="container-fluid py-4">
+
+  <!-- Welcome Section -->
+  <div class="mb-4 text-center">
+    <h2>Welcome, {{ request.user.first_name }} 👋</h2>
+    <p class="text-muted">{{ current_date }}</p>
+  </div>
+
+  <!-- Quick Stats Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm border-0 bg-primary text-white">
+        <div class="card-body">
+          <h5>Today's Attendance</h5>
+          <h3>{{ attendance_status }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm border-0 bg-success text-white">
+        <div class="card-body">
+          <h5>Total Leaves Taken</h5>
+          <h3>{{ total_leaves }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm border-0 bg-warning text-dark">
+        <div class="card-body">
+          <h5>Unread Notifications</h5>
+          <h3>{{ unread_notifications }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm border-0 bg-info text-dark">
+        <div class="card-body">
+          <h5>Pending Tasks</h5>
+          <h3>{{ pending_tasks }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attendance Chart -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+      Attendance Overview (Last 6 Months)
+    </div>
+    <div class="card-body">
+      <canvas id="attendanceChart" height="100"></canvas>
+    </div>
+  </div>
+
+  <!-- Recent Notifications -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+      <span>Recent Notifications</span>
+      <a href="{% url 'notifications' %}" class="btn btn-light btn-sm">View All</a>
+    </div>
+    <div class="card-body">
+      {% if recent_notifications %}
+        <ul class="list-group">
+          {% for note in recent_notifications %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ note.message }}
+            <small class="text-muted">{{ note.created_at|date:"M d, Y" }}</small>
+          </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted text-center mb-0">No new notifications 🎉</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Upcoming Events / Leaves -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-secondary text-white">Upcoming Events / Leaves</div>
+    <div class="card-body">
+      {% if upcoming_events %}
+        <table class="table table-bordered text-center align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Date</th>
+              <th>Event</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in upcoming_events %}
+            <tr>
+              <td>{{ event.date|date:"M d, Y" }}</td>
+              <td>{{ event.title }}</td>
+              <td>{{ event.description }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-muted text-center mb-0">No upcoming events.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="text-center mt-4">
+    <a href="{% url 'add_apply_leave' %}" class="btn btn-primary m-2">📩 Apply Leave</a>
+    <a href="{% url 'notifications' %}" class="btn btn-warning m-2">🔔 View Notifications</a>
+    <a href="{% url 'staff_feedback_view' %}" class="btn btn-success m-2">💬 View Feedback</a>
+    <a href="{% url 'profile' %}" class="btn btn-secondary m-2">⚙️ Profile Settings</a>
+  </div>
+
+  <!-- Optional Quote of the Day -->
+  <div class="mt-5 text-center">
+    <blockquote class="blockquote text-muted">
+      “{{ quote_of_the_day }}”
+    </blockquote>
+  </div>
+
+</div>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('attendanceChart');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ attendance_months|safe }},
+      datasets: [{
+        label: 'Attendance (%)',
+        data: {{ attendance_data|safe }},
+        fill: true,
+        borderColor: '#007bff',
+        backgroundColor: 'rgba(0,123,255,0.2)',
+        tension: 0.3,
+        borderWidth: 3,
+        pointBackgroundColor: '#007bff',
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        y: { beginAtZero: true, max: 100 },
+      }
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'dashboard.html' %}
+
+{% block header %}
+<!-- empty so the header doesn't show on profile page -->
+{% endblock %}
+
+{% block mynav %}
+<div class="p-4 shadow rounded bg-white">
+  <h3 class="mb-3 text-center">View Staff</h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Staff ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Address</th>
+          <th>Gender</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in staff %}
+        <tr>
+          <td>{{ i.id }}</td>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+
+              <span>{{ i.admin.first_name }} {{ i.admin.last_name }}</span>
+            </div>
+          </td>
+          <td>{{ i.admin.email }}</td>
+          <td>{{ i.admin.username }}</td>
+          <td>{{ i.address }}</td>
+          <td>{{ i.gender }}</td>
+          <td>
+            <a href="{% url 'edit_staff' i.id %}" class="text-primary me-2">
+   <i class="fas fa-edit"></i>
+</a>
+
+            <a href="{% url 'delete_staff' i.admin.id %}" class="text-danger">
+   <i class="fas fa-trash-alt"></i>
+</a>
+
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-muted">No staff records found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

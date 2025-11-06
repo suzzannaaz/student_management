@@ -1,0 +1,51 @@
+{% extends 'dashboard.html' %}
+
+{% block header %}
+<!-- empty so the header doesn't show on profile page -->
+{% endblock %}
+
+  {% block mynav %}
+
+<form action="{% url 'profile_update' %}" method="post" class="p-4 shadow rounded bg-white" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="mb-3">
+   <label for="profile_pic" class="form-label">Profile Pic</label>
+   <input id="profile_pic" name="profile_pic" type="file" class="form-control" value="{{user.profile_pic}}">
+</div>
+<div class="mb-3">
+   <label for="first_name" class="form-label">First Name</label>
+   <input id="first_name" name="first_name" type="text" class="form-control" value="{{user.first_name}}">
+</div>
+<div class="mb-3">
+   <label for="last_name" class="form-label">Last Name</label>
+   <input id="last_name" name="last_name" type="text" class="form-control" value="{{user.last_name}}">
+</div>
+<div class="mb-3">
+   <label for="email" class="form-label">Email</label>
+   <input id="email" name="email" type="email" class="form-control" value="{{user.email}}" readonly>
+</div>
+<div class="mb-3">
+   <label for="username" class="form-label">Username</label>
+   <input id="username" name="username" type="text" class="form-control"  value="{{user.username}}" readonly>
+</div>
+<div class="mb-3">
+   <label for="password" class="form-label">Password</label>
+   <input id="password" name="password" type="password" class="form-control" placeholder="Fill only if you want to change your Password">
+</div>
+    <div class="text-center mt-3">
+  <button type="submit" class="btn btn-success px-4">
+    Update Profile
+  </button>
+        {% if messages %}
+   {% for message in messages %}
+       <div class="alert alert-danger alert-dismissible" role="alert">
+           <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+           <strong>{{ message }}</strong>
+       </div>
+   {% endfor %}
+{% endif %}
+
+</div>
+
+</form>
+ {% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'dashboard.html' %}
+
+{% block header %}
+<!-- empty so the header doesn't show on profile page -->
+{% endblock %}
+
+  {% block mynav %}
+
+<form action="{% url 'update_staff' %}" method="post" class="p-4 shadow rounded bg-white" enctype="multipart/form-data">
+{% csrf_token %}
+
+<input id="staff_id" name="staff_id" type="text" class="form-control" value="{{staff.admin.id}}" hidden>
+
+  <div class="mb-3">
+                   <label for="first_name" class="form-label">First Name</label>
+                   <input id="first_name" name="first_name" type="text" class="form-control" value="{{staff.admin.first_name}}" >
+               </div>
+               <div class="mb-3">
+                   <label for="last_name" class="form-label">Last Name</label>
+                   <input id="last_name" name="last_name" type="text" class="form-control" value="{{staff.admin.last_name}}" >
+               </div>
+               <div class="mb-3">
+                   <label for="email" class="form-label">Email</label>
+                   <input id="email" name="email" type="email" class="form-control" value="{{staff.admin.email}}" >
+               </div>
+               <div class="mb-3">
+                   <label for="username" class="form-label">Username</label>
+                   <input id="username" name="username" type="text" class="form-control"  value="{{staff.admin.username}}" >
+               </div>
+               <div class="mb-3">
+                   <label for="password" class="form-label">Password</label>
+                   <input id="password" name="password" type="password" class="form-control" placeholder="Fill only if you want to change your Password" >
+
+
+               </div>
+                <div class="mb-3">
+                   <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control" name="address" required>{{staff.address}}</textarea>
+               </div>
+               <div class="mb-3">
+   <label for="gender" class="form-label">Gender</label>
+   <select class="form-select gender-select" name="gender">
+       <option>Select Gender</option>
+       <option value="male" {% if staff.gender == "Male" %}selected{% endif %}>Male</option>
+       <option value="female" {% if staff.gender == "Female" %}selected{% endif %}>Female</option>
+       <option value="others" {% if staff.gender == "O+thers" %}selected{% endif %}>Others</option>
+   </select>
+</div>
+  <button type="submit" class="btn btn-success px-4">
+    Edit Staff
+  </button>
+</form>
+{% if messages %}
+   {% for message in messages %}
+       <div class="alert alert-danger alert-dismissible" role="alert">
+           <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+           <strong>{{ message }}</strong>
+       </div>
+   {% endfor %}
+{% endif %}
+ {% endblock %}

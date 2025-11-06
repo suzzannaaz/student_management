@@ -1,0 +1,68 @@
+{% extends 'dashboard.html' %}
+
+{% block mynav %}
+<form action="{% url 'save_feedback' %}" method="post" class="p-4 shadow rounded bg-white" enctype="multipart/form-data">
+  <div class="text-end mb-3">
+    <!-- Button to trigger modal -->
+    <button type="button" class="btn btn-warning" id="openModalBtn" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+      Feedback History
+    </button>
+  </div>
+
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="feedback" class="form-label">Feedback</label>
+    <textarea class="form-control" name="feedback" rows="8" required></textarea>
+  </div>
+
+  <div class="d-grid">
+    <button type="submit" class="btn btn-success">Send Feedback</button>
+  </div>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="feedbackModalLabel">Feedback History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <table class="table table-bordered text-center align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Feedback</th>
+              <th>Reply</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in feedback_history %}
+            <tr>
+              <td>{{ i.id }}</td>
+              <td>{{ i.feedback }}</td>
+              <td>
+                {% if i.feedback_reply %}
+                  {{ i.feedback_reply }}
+                {% else %}
+                  <span class="btn btn-info btn-sm">No reply</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="3">No feedback found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

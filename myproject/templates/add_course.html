@@ -1,0 +1,32 @@
+{% extends 'dashboard.html' %}
+
+{% block header %}
+<!-- empty so the header doesn't show on profile page -->
+{% endblock %}
+
+  {% block mynav %}
+
+<form action="{% url 'add_course' %}" method="post" class="p-4 shadow rounded bg-white" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="mb-3">
+   <label for="course_name" class="form-label">Name</label>
+   <input id="course_name" name="course_name" type="text" class="form-control" value="{{user.course_name}}">
+</div>
+
+    <div class="text-center mt-3">
+  <button type="submit" class="btn btn-success px-4">
+    Add Course
+  </button>
+        {% if messages %}
+   {% for message in messages %}
+       <div class="alert alert-danger alert-dismissible" role="alert">
+           <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+           <strong>{{ message }}</strong>
+       </div>
+   {% endfor %}
+{% endif %}
+
+</div>
+
+</form>
+ {% endblock %}

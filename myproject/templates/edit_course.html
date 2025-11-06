@@ -1,0 +1,22 @@
+{% extends 'dashboard.html' %}
+
+{% block header %}
+<!-- empty so the header doesn't show on profile page -->
+{% endblock %}
+
+  {% block mynav %}
+
+<form action="{% url 'update_course' %}" method="post" class="p-4 shadow rounded bg-white" enctype="multipart/form-data">
+{% csrf_token %}
+
+
+<div class="mb-3">
+   <label for="course_name" class="form-label">Course Name</label>
+   <input id="course_name" name="course_name" type="text" class="form-control" value="{{course.name}}" required>
+   <input id="course_id" name="course_id" type="text" class="form-control" value="{{course.id}}" hidden>
+</div>
+ <button type="submit" class="btn btn-success px-4">
+    Edit Course
+  </button>
+</form>
+{% endblock %}

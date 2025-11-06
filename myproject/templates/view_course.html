@@ -1,0 +1,47 @@
+{% extends 'dashboard.html' %}
+
+{% block header %}
+<!-- empty so the header doesn't show on profile page -->
+{% endblock %}
+
+{% block mynav %}
+<div class="p-4 shadow rounded bg-white">
+  <h3 class="mb-3 text-center">View Course</h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Course ID</th>
+             <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+{% for i in course %}
+   <tr>
+       <th scope="row">{{i.id}}</th>
+       <td>{{i.name}}</td>
+       <td>
+           <a href="{% url 'edit_course' i.id %}" class="text-primary me-2">
+   <i class="fas fa-edit"></i>
+</a>
+
+
+            <a href="{% url 'delete_course' i.id %}" class="text-danger">
+     <i class="fas fa-trash-alt"></i>
+ </a>
+
+
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-muted">No Course records found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

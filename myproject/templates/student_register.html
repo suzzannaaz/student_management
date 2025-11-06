@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Student Registration</title>
+ <style>
+   body {
+     font-family: Arial, sans-serif;
+     background: #f2f2f2;
+   }
+   .container {
+     width: 400px;
+     margin: 50px auto;
+     background: white;
+     padding: 25px;
+     border-radius: 10px;
+     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+   }
+   h2 {
+     text-align: center;
+     color: #333;
+   }
+   input[type=text], input[type=email], input[type=password], input[type=file] {
+     width: 100%;
+     padding: 10px;
+     margin: 8px 0;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+   }
+   button {
+     width: 100%;
+     background: #4CAF50;
+     color: white;
+     border: none;
+     padding: 10px;
+     border-radius: 5px;
+     cursor: pointer;
+   }
+   button:hover {
+     background: #45a049;
+   }
+   .msg {
+     color: red;
+     text-align: center;
+   }
+ </style>
+</head>
+<body>
+ <div class="container">
+   <h2>Student Registration</h2>
+
+
+   {% if messages %}
+     {% for message in messages %}
+       <p class="msg">{{ message }}</p>
+     {% endfor %}
+   {% endif %}
+
+
+   <form method="POST" enctype="multipart/form-data">
+     {% csrf_token %}
+     <label>First Name</label>
+     <input type="text" name="first_name" required>
+
+
+     <label>Last Name</label>
+     <input type="text" name="last_name" required>
+
+
+     <label>Email</label>
+     <input type="email" name="email" required>
+
+
+     <label>Password</label>
+     <input type="password" name="password" required>
+
+
+     <label>Confirm Password</label>
+     <input type="password" name="confirm_password" required>
+
+
+     <label>Profile Picture (optional)</label>
+     <input type="file" name="profile_pic">
+
+
+     <button type="submit">Register</button>
+   </form>
+
+
+   <p style="text-align:center;margin-top:10px;">
+     Already have an account? <a href="{% url 'dologin' %}">Login here</a>
+   </p>
+ </div>
+</body>
+</html>

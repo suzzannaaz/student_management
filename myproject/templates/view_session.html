@@ -1,0 +1,48 @@
+{% extends 'dashboard.html' %}
+
+{% block header %}
+<!-- empty so the header doesn't show on profile page -->
+{% endblock %}
+
+{% block mynav %}
+<div class="p-4 shadow rounded bg-white">
+  <h3 class="mb-3 text-center">View Subject</h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Session ID</th>
+          <th>Session Year Start</th>
+          <th>Session Year End</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in session %}
+   <tr>
+         <th scope="row">{{ i.id }}</th>
+       <td>{{ i.session_start|date:"d-m-y" }}</td>
+       <td>{{ i.session_end|date:"d-m-y" }}</td>
+
+          <td>
+            <a href="{% url 'edit_session' i.id %}" class="text-primary me-2">
+   <i class="fas fa-edit"></i>
+</a>
+
+            <a href="{% url 'delete_session' i.id %}" class="text-danger">
+   <i class="fas fa-trash-alt"></i>
+</a>
+
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-muted">No Session records found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

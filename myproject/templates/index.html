@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student</title>
+    <style>
+        /* Full-screen gradient background */
+        body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* purple to blue */
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        /* Heading style */
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* Button style */
+        button {
+            padding: 10px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: white;
+            color: #2575fc;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background-color: #2575fc;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Student Management System</h1>
+   <a href="{% url 'dologin' %}"><button>Login</button></a>
+</body>
+</html>
